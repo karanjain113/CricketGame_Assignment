@@ -1,103 +1,43 @@
 package com.example.springboot;
 
-import java.util.Random;
-
 public class Match {
-    public enum Result{WIN,DRAW,LOSE,NA};
-    Result r;
     Team A;
     Team B;
-    String result="";
-    Integer[] wicketsInnings=new Integer[2];
-    Integer[] runsInnings=new Integer[2];
-//    Integer target;
-    Integer overs;
+    firstInnings firstInning =new firstInnings();
+    secondInnings secondInning =new secondInnings();
+    String result="",toss="",decision="",score="";
     Team tossWon;
-    Integer[] balls=new Integer[2];
+//    Default Constructor
     Match()
     {
         this.A=new Team("RandomTeam1");
         this.B=new Team("RandomTeam2");
-        wicketsInnings[0]=0;
-        wicketsInnings[1]=0;
-//        target=0;
-        runsInnings[0]=0;
-        runsInnings[1]=0;
-        overs=50;
+        Innings.overs=50;
     }
+//    Parametrized Constructor
     Match(Team A,Team B,int overs)
     {
         this.A=A;
         this.B=B;
-        wicketsInnings[0]=0;
-        wicketsInnings[1]=0;
-//        target=0;
-        runsInnings[0]=0;
-        runsInnings[1]=0;
-        this.overs=overs;
+        Innings.overs=overs;
     }
-    public String startMatch()
+    public void startMatch()
     {
         toss();
         decision();
-        int i;
-        for(i=1;i<=(6*overs);i++)
-        {
-            Random rand=new Random();
-            int next=rand.nextInt(8);
-            if(next==7)
-            {
-                wicketsInnings[0]++;
-            }
-            else{
-                runsInnings[0]+=next;
-            }
-            if(wicketsInnings[0]==10)
-            {
-                break;
-            }
-        }
-        balls[0]=i;
-//        target=runsInnings[0]+1;
-        for(i=1;i<=(6*overs);i++)
-        {
-            Random rand=new Random();
-            int next=rand.nextInt(8);
-            if(next==7)
-            {
-                wicketsInnings[1]++;
-            }
-            else{
-                runsInnings[1]+=next;
-            }
-            if(wicketsInnings[1]==10 || runsInnings[1]>runsInnings[0])
-            {
-                break;
-            }
-        }
-        balls[1]=i;
-        if(runsInnings[1]>runsInnings[0])
-        {
-            r= Result.WIN;
-        }
-        else if(runsInnings[1]==runsInnings[0])
-        {
-            r=Result.DRAW;
-        }
-        else{
-            r=Result.LOSE;
-        }
-        return result();
+        firstInning.startInnings();
+        secondInning.setTarget(firstInning.runs+1);
+        secondInning.startInnings();
     }
     void toss()
     {
         if(Math.random()<0.5)
         {
-            result = result + A.name +" won the toss and ";
+            toss = toss + A.getName() +" won the toss and ";
             tossWon=A;
         }
         else{
-            result = result + B.name +" won the toss and ";
+            toss = toss + B.getName() +" won the toss and ";
             tossWon=B;
         }
     }
@@ -105,7 +45,7 @@ public class Match {
     {
         if(Math.random()<0.5)
         {
-            result = result+"elected to bat first.<br><br> ";
+            decision = decision+"elected to bat first.<br><br> ";
             if(tossWon==B)
             {
                 Team temp=B;
@@ -114,7 +54,7 @@ public class Match {
             }
         }
         else{
-            result = result+"elected to ball first. <br><br>";
+            decision = decision+"elected to ball first. <br><br>";
             if(tossWon==A)
             {
                 Team temp=B;
@@ -123,43 +63,46 @@ public class Match {
             }
         }
     }
-    public String result()
+    public String matchResult()
     {
-        if(r==Result.NA)
+        matchScore();
+//        Result declaration.
+        if(secondInning.runs>firstInning.runs)
         {
-            result=result+"Match Abandoned";
-            return result;
+            result=result+B.getName()+" Won the match by "+Integer.toString(10- secondInning.wickets)+" wickets";
         }
-        result=result+A.name+"  "+Integer.toString(runsInnings[0])+"/"+Integer.toString(wicketsInnings[0])+" in ";
-
-        if(balls[0]%6==0)
+        else if(secondInning.runs== firstInning.runs)
         {
-            result=result+Integer.toString(balls[0]/6)+" overs.<br>";
+            result=result+"Match was Draw";
         }
         else{
-            result=result+Integer.toString(balls[0]/6)+"."+Integer.toString(balls[0]%6)+ " overs.<br>";
+            result=result+A.getName()+" Won the match by "+Integer.toString(firstInning.runs- secondInning.runs)+" runs";
         }
-        result=result+B.name+"  "+Integer.toString(runsInnings[1])+"/"+Integer.toString(wicketsInnings[1])+" in ";
-        if(balls[1]%6==0)
-        {
-            result=result+Integer.toString(balls[1]/6)+" overs.  <br> <br>";
-        }
-        else{
-            result=result+Integer.toString(balls[1]/6)+"."+Integer.toString(balls[1]%6)+ " overs. <br ><br>";
-        }
-            if(r==Result.WIN)
-            {
-                result=result+B.name+" Won the match by "+Integer.toString(10-wicketsInnings[1])+" wickets";
-            }
-            else if(r==Result.DRAW)
-            {
-                result=result+"Match was Draw";
-            }
-            else
-            {
-                result=result+A.name+" Won the match by "+Integer.toString(runsInnings[0]-runsInnings[1])+" runs";
-            }
+//            Link for new match.
             result=result+"<br><br> <button onclick=\"window.location.href='result'\">Another Match</button>";
-            return result;
+            return toss+decision+score+result;
+    }
+    public void matchScore()
+    {
+        //        Innings 1 score details.
+        score=score+A.getName()+"  "+Integer.toString(firstInning.runs)+"/"+Integer.toString(firstInning.wickets)+" in ";
+
+        if(firstInning.balls%6==0)
+        {
+            score=score+Integer.toString(firstInning.balls/6)+" overs.<br>";
+        }
+        else{
+            score=score+Integer.toString(firstInning.balls/6)+"."+Integer.toString(firstInning.balls%6)+ " overs.<br>";
+        }
+//        Innings 2 score details.
+        score=score+B.getName()+"  "+Integer.toString(secondInning.runs)+"/"+Integer.toString(secondInning.wickets)+" in ";
+        if(secondInning.balls%6==0)
+        {
+            score=score+Integer.toString(secondInning.balls/6)+" overs.  <br> <br>";
+        }
+        else{
+            score=score+Integer.toString(secondInning.balls/6)+"."+Integer.toString(secondInning.balls%6)+ " overs. <br ><br>";
+        }
+
     }
 }

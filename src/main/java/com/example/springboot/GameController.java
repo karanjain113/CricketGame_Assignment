@@ -13,6 +13,7 @@ public class GameController {
     public String post()
     {
         Match m=new Match(new Team("India"),new Team("Australia"),50);
-        return m.startMatch();
+        m.startMatch();
+        return m.matchResult();
     }
 }

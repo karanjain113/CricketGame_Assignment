@@ -1,10 +1,11 @@
 package com.example.springboot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Team {
-    String name;
-    List<Player> teamList;
+    private String name;
+    List<Player> teamList=new ArrayList<Player>();
     Team()
     {
         this.name="Random";
@@ -12,5 +13,9 @@ public class Team {
     Team(String name)
     {
         this.name=name;
+    }
+    public String getName()
+    {
+        return name;
     }
 }
