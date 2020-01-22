@@ -10,10 +10,10 @@ public class GameController {
         return "<button onclick=\"window.location.href='result'\">Start Match</button>";
     }
     @RequestMapping("/result")
-    public String post()
+    public Match post()
     {
         Match m=new Match(new Team("India"),new Team("Australia"),50);
         m.startMatch();
-        return m.matchResult();
+        return m;
     }
 }

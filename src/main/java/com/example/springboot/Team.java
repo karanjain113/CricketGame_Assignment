@@ -5,17 +5,29 @@ import java.util.List;
 
 public class Team {
     private String name;
-    List<Player> teamList=new ArrayList<Player>();
+    Player[] teamList=new Player[11];
+
     Team()
     {
-        this.name="Random";
+        for(int i=0;i<11;i++)
+        {
+            teamList[i]=new Player("RandomP"+i);
+        }
+        this.name="RandomTeam";
     }
     Team(String name)
     {
+        for(int i=0;i<11;i++)
+        {
+            teamList[i]=new Player("RandomP"+i);
+        }
         this.name=name;
     }
     public String getName()
     {
         return name;
+    }
+    public Player[] getTeamList() {
+        return teamList;
     }
 }
