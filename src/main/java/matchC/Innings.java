@@ -1,11 +1,16 @@
-package com.example.springboot;
+package matchC;
 
-abstract public class Innings {
+import java.util.ArrayList;
+
+abstract class Innings {
+    String battingTeam="";
+    String bowlingTeam="";
     Integer runs=0;
     Integer wickets=0;
     Integer balls=0;
     String oversBowled="";
     static Integer totalOvers;
+
     Innings(){}
     abstract void startInnings(Team battingTeam,Team bowlingTeam);
 
@@ -34,6 +39,17 @@ abstract public class Innings {
 
     public static Integer getTotalOvers() {
         return totalOvers;
+    }
+//    public ArrayList<Over> getOvers() {
+//        return overs;
+//    }
+
+    public String getBattingTeam() {
+        return battingTeam;
+    }
+
+    public String getBowlingTeam() {
+        return bowlingTeam;
     }
 //    public Integer getBalls() {
 //        return balls;

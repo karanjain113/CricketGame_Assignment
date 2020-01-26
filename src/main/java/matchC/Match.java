@@ -1,28 +1,28 @@
-package com.example.springboot;
+package matchC;
 
 
 
 public class Match {
-
     private firstInnings firstInning =new firstInnings();
     private secondInnings secondInning =new secondInnings();
-    private String result="",toss="",decision="",score="",scoreCard="";
     private String tossWon;
+    private String result="",toss="",decision="",score="",scoreCard="";
+    private String res="";
     private Team teamA;
     private Team teamB;
 
 //    Default Constructor
-    Match()
+    public Match()
     {
         this.teamA=new Team("RandomTeam1");
         this.teamB=new Team("RandomTeam2");
         Innings.totalOvers =50;
     }
 //    Parametrized Constructor
-    Match(Team teamA, Team teamB, int overs)
+    public Match(String teamA, String teamB, int overs)
     {
-        this.teamA = teamA;
-        this.teamB = teamB;
+        this.teamA=new Team(teamA);
+        this.teamB=new Team(teamB);
         Innings.totalOvers =overs;
     }
     public void startMatch()
@@ -32,7 +32,8 @@ public class Match {
         firstInning.startInnings(teamA, teamB);
         secondInning.setTarget(firstInning.runs+1);
         secondInning.startInnings(teamB, teamA);
-        scoreBoard();
+        matchResult();
+//        scoreBoard();
     }
     void toss()
     {
@@ -50,7 +51,7 @@ public class Match {
     {
         if(Math.random()<0.5)
         {
-            decision = decision+"elected to bat first.<br><br> ";
+            decision = decision+" elected to bat first.";
             if(tossWon== teamB.getName())
             {
                 Team temp= teamB;
@@ -59,7 +60,7 @@ public class Match {
             }
         }
         else{
-            decision = decision+"elected to ball first. <br><br>";
+            decision = decision+" elected to ball first.";
             if(tossWon== teamA.getName())
             {
                 Team temp= teamB;
@@ -74,14 +75,18 @@ public class Match {
 //        Result declaration.
         if(secondInning.runs>firstInning.runs)
         {
-            result=result+ teamB.getName()+" Won the match by "+Integer.toString(10- secondInning.wickets)+" wickets";
+//            result=result+ teamB.getName()+" Won the match by "+Integer.toString(10- secondInning.wickets)+" wickets";
+            res=res+ teamB.getName()+" Won the match by "+Integer.toString(10- secondInning.wickets)+" wickets";
+
         }
         else if(secondInning.runs== firstInning.runs)
         {
-            result=result+"Match was Draw";
+//            result=result+"Match was Draw";
+            res=res+"Match was Draw";
         }
         else{
-            result=result+ teamA.getName()+" Won the match by "+Integer.toString(firstInning.runs- secondInning.runs)+" runs";
+//            result=result+ teamA.getName()+" Won the match by "+Integer.toString(firstInning.runs- secondInning.runs)+" runs";
+            res=res+ teamA.getName()+" Won the match by "+Integer.toString(firstInning.runs- secondInning.runs)+" runs";
         }
 //            Link for new match.
             result=result+"<br><br> <button onclick=\"window.location.href='result'\">Another Match</button><br><br>";
@@ -109,33 +114,33 @@ public class Match {
             score=score+Integer.toString(secondInning.balls/6)+"."+Integer.toString(secondInning.balls%6)+ " overs. <br ><br>";
         }
     }
-    public void scoreBoard()
-    {
-        scoreCard+="<table><tr><th>Batsman</th><th>Runs Scored</th><th>Balls Faced</th><th>Boundaries Hit</th></tr>";
-        for(int i=0;i<firstInning.wickets+1;i++)
-        {
-            scoreCard+= teamA.teamList[i].battingStats();
-        }
-        scoreCard+="</table>";
-        scoreCard+="<table><tr><th>Bowler</th><th>Overs Bowled</th><th>Runs Conceded</th><th>Wickets Taken</th><th>Maiden Overs</th></tr>";
-        for(int i=5;i<11;i++)
-        {
-            scoreCard+= teamB.teamList[i].bowlingStats();
-        }
-        scoreCard+="</table>";
-        scoreCard+="<table><tr><th>Batsman</th><th>Runs Scored</th><th>Balls Faced</th><th>Boundaries Hit</th></tr>";
-        for(int i=0;i<secondInning.wickets+1;i++)
-        {
-            scoreCard+= teamB.teamList[i].battingStats();
-        }
-        scoreCard+="</table>";
-        scoreCard+="<table><tr><th>Bowler</th><th>Overs Bowled</th><th>Runs Conceded</th><th>Wickets Taken</th><th>Maiden Overs</th></tr>";
-        for(int i=5;i<11;i++)
-        {
-            scoreCard+= teamA.teamList[i].bowlingStats();
-        }
-        scoreCard+="</table>";
-    }
+//    public void scoreBoard()
+//    {
+//        scoreCard+="<table><tr><th>Batsman</th><th>Runs Scored</th><th>Balls Faced</th><th>Boundaries Hit</th></tr>";
+//        for(int i=0;i<firstInning.wickets+1;i++)
+//        {
+//            scoreCard+= teamA.teamList[i].battingStats();
+//        }
+//        scoreCard+="</table>";
+//        scoreCard+="<table><tr><th>Bowler</th><th>Overs Bowled</th><th>Runs Conceded</th><th>Wickets Taken</th><th>Maiden Overs</th></tr>";
+//        for(int i=5;i<11;i++)
+//        {
+//            scoreCard+= teamB.teamList[i].bowlingStats();
+//        }
+//        scoreCard+="</table>";
+//        scoreCard+="<table><tr><th>Batsman</th><th>Runs Scored</th><th>Balls Faced</th><th>Boundaries Hit</th></tr>";
+//        for(int i=0;i<secondInning.wickets+1;i++)
+//        {
+//            scoreCard+= teamB.teamList[i].battingStats();
+//        }
+//        scoreCard+="</table>";
+//        scoreCard+="<table><tr><th>Bowler</th><th>Overs Bowled</th><th>Runs Conceded</th><th>Wickets Taken</th><th>Maiden Overs</th></tr>";
+//        for(int i=5;i<11;i++)
+//        {
+//            scoreCard+= teamA.teamList[i].bowlingStats();
+//        }
+//        scoreCard+="</table>";
+//    }
 
     public firstInnings getFirstInning() {
         return firstInning;
@@ -158,6 +163,9 @@ public class Match {
 
     public String getDecision() {
         return decision;
+    }
+    public String getRes() {
+        return res;
     }
 //
 //    public String getResult() {

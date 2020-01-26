@@ -1,5 +1,6 @@
 package com.example.springboot;
 
+import matchC.Match;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,9 +25,9 @@ public class GameController {
     }
     @RequestMapping("/result")
     @ResponseBody
-    public Match post(@RequestParam("Team1") String TeamA,@RequestParam("Team2") String TeamB,@RequestParam("Overs") String Overs)
+    public Match post(@RequestParam("Team1") String TeamA, @RequestParam("Team2") String TeamB, @RequestParam("Overs") String Overs)
     {
-        Match m=new Match(new Team(TeamA),new Team(TeamB),Integer.parseInt(Overs));
+        Match m=new Match(TeamA,TeamB,Integer.parseInt(Overs));
         m.startMatch();
         return m;
     }

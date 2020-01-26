@@ -1,13 +1,15 @@
-package com.example.springboot;
+package matchC;
 
 import java.util.Random;
 
-public class secondInnings extends Innings {
+class secondInnings extends Innings {
     private Integer target=0;
-    @Override
-    void startInnings(Team battingTeam,Team bowlingTeam) {
+
+    @Override void startInnings(Team battingTeam,Team bowlingTeam) {
+        this.battingTeam=battingTeam.getName();
+        this.bowlingTeam=bowlingTeam.getName();
         int strikeBatsman=0,currentBowler=0,nonStrikeBatsman=1;
-        for(int j = 0; j< totalOvers; j++){
+        for(int j = 0; j<totalOvers; j++){
             currentBowler%=11;
             if(currentBowler==0)
             {
@@ -17,29 +19,29 @@ public class secondInnings extends Innings {
             for(int i=1;i<=6;i++)
             {
                 balls++;
-                Integer x=battingTeam.teamList[strikeBatsman].getBallsPlayed()+1;
-                battingTeam.teamList[strikeBatsman].setBallsPlayed(x);
-                x=bowlingTeam.teamList[currentBowler].getBallsBowled()+1;
-                bowlingTeam.teamList[currentBowler].setBallsBowled(x);
+                Integer x=battingTeam.teamList[strikeBatsman].getBattingStats().getBallsPlayed()+1;
+                battingTeam.teamList[strikeBatsman].getBattingStats().setBallsPlayed(x);
+                x=bowlingTeam.teamList[currentBowler].getBowlingStats().getBallsBowled()+1;
+                bowlingTeam.teamList[currentBowler].getBowlingStats().setBallsBowled(x);
                 Random rand=new Random();
                 int next=rand.nextInt(8);
                 if(next==7)
                 {
-                    x= bowlingTeam.teamList[currentBowler].getWicketsTaken()+1;
-                    bowlingTeam.teamList[currentBowler].setWicketsTaken(x);
+                    x= bowlingTeam.teamList[currentBowler].getBowlingStats().getWicketsTaken()+1;
+                    bowlingTeam.teamList[currentBowler].getBowlingStats().setWicketsTaken(x);
                     wickets++;
                     strikeBatsman=wickets+1;
                 }
                 else{
                     runsThisOver+=next;
-                    x=battingTeam.teamList[strikeBatsman].getRunsScored();
-                    battingTeam.teamList[strikeBatsman].setRunsScored(x+next);
-                    x= bowlingTeam.teamList[currentBowler].getRunsGiven()+next;
-                    bowlingTeam.teamList[currentBowler].setRunsGiven(x);
+                    x=battingTeam.teamList[strikeBatsman].getBattingStats().getRunsScored();
+                    battingTeam.teamList[strikeBatsman].getBattingStats().setRunsScored(x+next);
+                    x= bowlingTeam.teamList[currentBowler].getBowlingStats().getRunsGiven()+next;
+                    bowlingTeam.teamList[currentBowler].getBowlingStats().setRunsGiven(x);
                     if(next==4 || next==6)
                     {
-                        x=battingTeam.teamList[strikeBatsman].getBoundariesHit()+1;
-                        battingTeam.teamList[strikeBatsman].setBoundariesHit(x);
+                        x=battingTeam.teamList[strikeBatsman].getBattingStats().getBoundariesHit()+1;
+                        battingTeam.teamList[strikeBatsman].getBattingStats().setBoundariesHit(x);
                     }
                     if(next%2==1)
                     {
@@ -56,8 +58,8 @@ public class secondInnings extends Innings {
             }
             if(balls%6==0 && runsThisOver==0)
             {
-                Integer temp= bowlingTeam.teamList[currentBowler].getMaidens()+1;
-                bowlingTeam.teamList[currentBowler].setMaidens(temp);
+                Integer temp= bowlingTeam.teamList[currentBowler].getBowlingStats().getMaidens()+1;
+                bowlingTeam.teamList[currentBowler].getBowlingStats().setMaidens(temp);
             }
             if(wickets==10 || runs>=target)
             {
@@ -75,6 +77,8 @@ public class secondInnings extends Innings {
         else{
             oversBowled+=Integer.toString(balls/6)+"."+Integer.toString(balls%6);
         }
+        battingTeam.getStats().setRunsScored(runs);
+        battingTeam.getStats().setWicketsFallen(wickets);
     }
 
     public Integer getTarget() {
@@ -84,4 +88,6 @@ public class secondInnings extends Innings {
     {
         this.target=target;
     }
+
+
 }
