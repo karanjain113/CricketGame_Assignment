@@ -6,8 +6,8 @@ public class Match {
     private Innings firstInning =new Innings();
     private Innings secondInning =new Innings();
     private String tossWon;
-    private String result="",toss="",decision="",score="",scoreCard="";
-    private String res="";
+    private String toss="",decision="",score="",scoreCard="";
+    private String result ="";
     private Team teamA;
     private Team teamB;
 
@@ -77,79 +77,44 @@ public class Match {
             }
         }
     }
-    public String matchResult()
+    public void matchResult()
     {
-        matchScore();
 //        Result declaration.
         if(secondInning.getRunsScored()>firstInning.getRunsScored())
         {
-//            result=result+ teamB.getName()+" Won the match by "+Integer.toString(10- secondInning.wickets)+" wickets";
-            res=res+ teamB.getName()+" Won the match by "+Integer.toString(10- secondInning.getWicketsFallen())+" wickets";
+            result = result + teamB.getName()+" Won the match by "+Integer.toString(10- secondInning.getWicketsFallen())+" wickets";
 
         }
         else if(secondInning.getRunsScored().equals(firstInning.getRunsScored()))
         {
-//            result=result+"Match was Draw";
-            res=res+"Match was Draw";
+            result = result +"Match was Draw";
         }
         else{
-//            result=result+ teamA.getName()+" Won the match by "+Integer.toString(firstInning.runs- secondInning.runs)+" runs";
-            res=res+ teamA.getName()+" Won the match by "+Integer.toString(firstInning.getRunsScored()- secondInning.getRunsScored())+" runs";
-        }
-//            Link for new match.
-            result=result+"<br><br> <button onclick=\"window.location.href='result'\">Another Match</button><br><br>";
-            return toss+decision+score+result+scoreCard;
-    }
-    public void matchScore()
-    {
-        //        Innings 1 score details.
-        score=score+ teamA.getName()+"  "+Integer.toString(firstInning.getRunsScored())+"/"+Integer.toString(firstInning.getWicketsFallen())+" in ";
-
-        if(firstInning.getBallsPlayed()%6==0)
-        {
-            score=score+Integer.toString(firstInning.getBallsPlayed()/6)+" overs.<br>";
-        }
-        else{
-            score=score+Integer.toString(firstInning.getBallsPlayed()/6)+"."+Integer.toString(firstInning.getBallsPlayed()%6)+ " overs.<br>";
-        }
-//        Innings 2 score details.
-        score=score+ teamB.getName()+"  "+Integer.toString(secondInning.getRunsScored())+"/"+Integer.toString(secondInning.getWicketsFallen())+" in ";
-        if(secondInning.getBallsPlayed()%6==0)
-        {
-            score=score+Integer.toString(secondInning.getBallsPlayed()/6)+" overs.  <br> <br>";
-        }
-        else{
-            score=score+Integer.toString(secondInning.getBallsPlayed()/6)+"."+Integer.toString(secondInning.getBallsPlayed()%6)+ " overs. <br ><br>";
+            result = result + teamA.getName()+" Won the match by "+Integer.toString(firstInning.getRunsScored()- secondInning.getRunsScored())+" runs";
         }
     }
-//    public void scoreBoard()
+//    public void matchScore()
 //    {
-//        scoreCard+="<table><tr><th>Batsman</th><th>Runs Scored</th><th>Balls Faced</th><th>Boundaries Hit</th></tr>";
-//        for(int i=0;i<firstInning.wickets+1;i++)
-//        {
-//            scoreCard+= teamA.teamList[i].battingStats();
-//        }
-//        scoreCard+="</table>";
-//        scoreCard+="<table><tr><th>Bowler</th><th>Overs Bowled</th><th>Runs Conceded</th><th>Wickets Taken</th><th>Maiden Overs</th></tr>";
-//        for(int i=5;i<11;i++)
-//        {
-//            scoreCard+= teamB.teamList[i].bowlingStats();
-//        }
-//        scoreCard+="</table>";
-//        scoreCard+="<table><tr><th>Batsman</th><th>Runs Scored</th><th>Balls Faced</th><th>Boundaries Hit</th></tr>";
-//        for(int i=0;i<secondInning.wickets+1;i++)
-//        {
-//            scoreCard+= teamB.teamList[i].battingStats();
-//        }
-//        scoreCard+="</table>";
-//        scoreCard+="<table><tr><th>Bowler</th><th>Overs Bowled</th><th>Runs Conceded</th><th>Wickets Taken</th><th>Maiden Overs</th></tr>";
-//        for(int i=5;i<11;i++)
-//        {
-//            scoreCard+= teamA.teamList[i].bowlingStats();
-//        }
-//        scoreCard+="</table>";
-//    }
+//        //        Innings 1 score details.
+//        score=score+ teamA.getName()+"  "+Integer.toString(firstInning.getRunsScored())+"/"+Integer.toString(firstInning.getWicketsFallen())+" in ";
 //
+//        if(firstInning.getBallsPlayed()%6==0)
+//        {
+//            score=score+Integer.toString(firstInning.getBallsPlayed()/6)+" overs.";
+//        }
+//        else{
+//            score=score+Integer.toString(firstInning.getBallsPlayed()/6)+"."+Integer.toString(firstInning.getBallsPlayed()%6)+ " overs.<br>";
+//        }
+////        Innings 2 score details.
+//        score=score+ teamB.getName()+"  "+Integer.toString(secondInning.getRunsScored())+"/"+Integer.toString(secondInning.getWicketsFallen())+" in ";
+//        if(secondInning.getBallsPlayed()%6==0)
+//        {
+//            score=score+Integer.toString(secondInning.getBallsPlayed()/6)+" overs.";
+//        }
+//        else{
+//            score=score+Integer.toString(secondInning.getBallsPlayed()/6)+"."+Integer.toString(secondInning.getBallsPlayed()%6)+ " overs. <br ><br>";
+//        }
+//    }
 
     public Team getTeamA() {
         return teamA;
@@ -166,23 +131,9 @@ public class Match {
     public String getDecision() {
         return decision;
     }
-    public String getRes() {
-        return res;
+
+    public String getResult() {
+        return result;
     }
-//
-//    public String getResult() {
-//        return result;
-//    }
-//
-//    public String getScore() {
-//        return score;
-//    }
-//
-//    public String getScoreCard() {
-//        return scoreCard;
-//    }
-//
-//    public String getToss() {
-//        return toss;
-//    }
+
 }
