@@ -4,7 +4,7 @@ import java.util.Random;
 
 class Team {
     private String name;
-    private teamStats stats;
+    private TeamStats stats;
     Player[] teamList=new Player[11];
 
     Team()
@@ -33,7 +33,7 @@ class Team {
             teamList[i].setBowlingRating((float)rand.nextInt(3)+8);
         }
         this.name="RandomTeam";
-        stats=new teamStats();
+        stats=new TeamStats();
     }
     //    Constructors
     Team(String name)
@@ -63,10 +63,10 @@ class Team {
             teamList[i].setBowlingRating((float)rand.nextInt(3)+8);
         }
         this.name=name;
-        stats=new teamStats();
+        stats=new TeamStats();
     }
     //Getter Functions
     public String getName() { return name; }
     public Player[] getTeamList() { return teamList; }
-    public teamStats getStats() { return stats; }
+    public TeamStats getStats() { return stats; }
 }

@@ -1,6 +1,6 @@
 package matchC;
 
-public class teamStats {
+public class TeamStats {
     private int runsScored=0;
     private int wicketsFallen=0;
 
