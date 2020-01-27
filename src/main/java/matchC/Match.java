@@ -3,8 +3,8 @@ package matchC;
 
 
 public class Match {
-    private firstInnings firstInning =new firstInnings();
-    private secondInnings secondInning =new secondInnings();
+    private Innings firstInning =new Innings();
+    private Innings secondInning =new Innings();
     private String tossWon;
     private String result="",toss="",decision="",score="",scoreCard="";
     private String res="";
@@ -25,17 +25,25 @@ public class Match {
         this.teamB=new Team(teamB);
         Innings.totalOvers =overs;
     }
+
+    public Innings getFirstInning() {
+        return firstInning;
+    }
+
+    public Innings getSecondInning() {
+        return secondInning;
+    }
+
     public void startMatch()
     {
-        toss();
-        decision();
-        firstInning.startInnings(teamA, teamB);
-        secondInning.setTarget(firstInning.runs+1);
-        secondInning.startInnings(teamB, teamA);
+        doToss();
+        makeDecision();
+        firstInning.startInnings(teamA, teamB,1);
+        secondInning.setTarget(firstInning.getRunsScored()+1);
+        secondInning.startInnings(teamB, teamA,2);
         matchResult();
-//        scoreBoard();
     }
-    void toss()
+    void doToss()
     {
         if(Math.random()<0.5)
         {
@@ -47,12 +55,12 @@ public class Match {
             tossWon= teamB.getName();
         }
     }
-    void decision()
+    void makeDecision()
     {
         if(Math.random()<0.5)
         {
             decision = decision+" elected to bat first.";
-            if(tossWon== teamB.getName())
+            if(tossWon.equals(teamB.getName()))
             {
                 Team temp= teamB;
                 teamB = teamA;
@@ -61,7 +69,7 @@ public class Match {
         }
         else{
             decision = decision+" elected to ball first.";
-            if(tossWon== teamA.getName())
+            if(tossWon.equals(teamA.getName()))
             {
                 Team temp= teamB;
                 teamB = teamA;
@@ -73,20 +81,20 @@ public class Match {
     {
         matchScore();
 //        Result declaration.
-        if(secondInning.runs>firstInning.runs)
+        if(secondInning.getRunsScored()>firstInning.getRunsScored())
         {
 //            result=result+ teamB.getName()+" Won the match by "+Integer.toString(10- secondInning.wickets)+" wickets";
-            res=res+ teamB.getName()+" Won the match by "+Integer.toString(10- secondInning.wickets)+" wickets";
+            res=res+ teamB.getName()+" Won the match by "+Integer.toString(10- secondInning.getWicketsFallen())+" wickets";
 
         }
-        else if(secondInning.runs== firstInning.runs)
+        else if(secondInning.getRunsScored().equals(firstInning.getRunsScored()))
         {
 //            result=result+"Match was Draw";
             res=res+"Match was Draw";
         }
         else{
 //            result=result+ teamA.getName()+" Won the match by "+Integer.toString(firstInning.runs- secondInning.runs)+" runs";
-            res=res+ teamA.getName()+" Won the match by "+Integer.toString(firstInning.runs- secondInning.runs)+" runs";
+            res=res+ teamA.getName()+" Won the match by "+Integer.toString(firstInning.getRunsScored()- secondInning.getRunsScored())+" runs";
         }
 //            Link for new match.
             result=result+"<br><br> <button onclick=\"window.location.href='result'\">Another Match</button><br><br>";
@@ -95,23 +103,23 @@ public class Match {
     public void matchScore()
     {
         //        Innings 1 score details.
-        score=score+ teamA.getName()+"  "+Integer.toString(firstInning.runs)+"/"+Integer.toString(firstInning.wickets)+" in ";
+        score=score+ teamA.getName()+"  "+Integer.toString(firstInning.getRunsScored())+"/"+Integer.toString(firstInning.getWicketsFallen())+" in ";
 
-        if(firstInning.balls%6==0)
+        if(firstInning.getBallsPlayed()%6==0)
         {
-            score=score+Integer.toString(firstInning.balls/6)+" overs.<br>";
+            score=score+Integer.toString(firstInning.getBallsPlayed()/6)+" overs.<br>";
         }
         else{
-            score=score+Integer.toString(firstInning.balls/6)+"."+Integer.toString(firstInning.balls%6)+ " overs.<br>";
+            score=score+Integer.toString(firstInning.getBallsPlayed()/6)+"."+Integer.toString(firstInning.getBallsPlayed()%6)+ " overs.<br>";
         }
 //        Innings 2 score details.
-        score=score+ teamB.getName()+"  "+Integer.toString(secondInning.runs)+"/"+Integer.toString(secondInning.wickets)+" in ";
-        if(secondInning.balls%6==0)
+        score=score+ teamB.getName()+"  "+Integer.toString(secondInning.getRunsScored())+"/"+Integer.toString(secondInning.getWicketsFallen())+" in ";
+        if(secondInning.getBallsPlayed()%6==0)
         {
-            score=score+Integer.toString(secondInning.balls/6)+" overs.  <br> <br>";
+            score=score+Integer.toString(secondInning.getBallsPlayed()/6)+" overs.  <br> <br>";
         }
         else{
-            score=score+Integer.toString(secondInning.balls/6)+"."+Integer.toString(secondInning.balls%6)+ " overs. <br ><br>";
+            score=score+Integer.toString(secondInning.getBallsPlayed()/6)+"."+Integer.toString(secondInning.getBallsPlayed()%6)+ " overs. <br ><br>";
         }
     }
 //    public void scoreBoard()
@@ -141,14 +149,8 @@ public class Match {
 //        }
 //        scoreCard+="</table>";
 //    }
+//
 
-    public firstInnings getFirstInning() {
-        return firstInning;
-    }
-
-    public secondInnings getSecondInning() {
-        return secondInning;
-    }
     public Team getTeamA() {
         return teamA;
     }

@@ -1,9 +1,10 @@
 package matchC;
 
-public class playerBattingStats {
+public class PlayerBattingStats {
     private Integer runsScored=0;
     private Integer ballsPlayed=0;
     private Integer boundariesHit=0;
+    private float strikeRate=0;
 
     public Integer getRunsScored() {
         return runsScored;

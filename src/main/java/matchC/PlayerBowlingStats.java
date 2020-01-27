@@ -1,10 +1,11 @@
 package matchC;
 
-public class playerBowlingStats {
+public class PlayerBowlingStats {
     private Integer wicketsTaken=0;
     private Integer runsGiven=0;
     private Integer ballsBowled=0;
     private Integer maidens=0;
+    private float economy=0;
 
     public Integer getWicketsTaken() {
         return wicketsTaken;
