@@ -6,8 +6,7 @@ public class Match {
     private Innings firstInning =new Innings();
     private Innings secondInning =new Innings();
     private String tossWon;
-    private String toss="",decision="",score="",scoreCard="";
-    private String result ="";
+    private String toss="",decision="",result="";
     private Team teamA;
     private Team teamB;
 
