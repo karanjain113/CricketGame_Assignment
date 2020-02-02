@@ -1,7 +1,7 @@
 package matchC;
 
 enum PlayerType {Batsman,Bowler,AllRounder};
-class Player {
+public class Player {
     private String name;
     private PlayerBattingStats battingStats;
     private PlayerBowlingStats bowlingStats;

@@ -1,10 +1,16 @@
 package com.example.springboot;
 
-import matchC.Match;
+import matchC.CricketMatch;
+import matchC.service.CricketServiceImpl;
+import matchC.service.GameService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class GameController {
+
+    private GameService cricketService=new CricketServiceImpl();
+
+
 
     @RequestMapping("/")
     public String index() {
@@ -23,12 +29,15 @@ public class GameController {
                 "  <input type=\"submit\" value=\"Submit\">\n" +
                 "</form> ";
     }
+
     @RequestMapping("/result")
     @ResponseBody
-    public Match post(@RequestParam("Team1") String TeamA, @RequestParam("Team2") String TeamB, @RequestParam("Overs") String Overs)
-    {
-        Match m=new Match(TeamA,TeamB,Integer.parseInt(Overs));
-        m.startMatch();
-        return m;
+    public CricketMatch post(@RequestParam("Team1") String teamA, @RequestParam("Team2") String teamB, @RequestParam("Overs") String overs) {
+
+        return cricketService.play(teamA,teamB,overs);
+        //return transformToResponse(play);
+
     }
+
+
 }

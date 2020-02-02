@@ -1,32 +1,32 @@
 package matchC;
 
 public class PlayerBattingStats {
-    private Integer runsScored=0;
-    private Integer ballsPlayed=0;
-    private Integer boundariesHit=0;
+    private int runsScored=0;
+    private int ballsPlayed=0;
+    private int boundariesHit=0;
     private float strikeRate=0;
 
-    public Integer getRunsScored() {
+    public int getRunsScored() {
         return runsScored;
     }
 
-    public Integer getBallsPlayed() {
+    public int getBallsPlayed() {
         return ballsPlayed;
     }
 
-    public Integer getBoundariesHit() {
+    public int getBoundariesHit() {
         return boundariesHit;
     }
 
-    public void setRunsScored(Integer runsScored) {
+    public void setRunsScored(int runsScored) {
         this.runsScored = runsScored;
     }
 
-    public void setBallsPlayed(Integer ballsPlayed) {
+    public void setBallsPlayed(int ballsPlayed) {
         this.ballsPlayed = ballsPlayed;
     }
 
-    public void setBoundariesHit(Integer boundariesHit) {
+    public void setBoundariesHit(int boundariesHit) {
         this.boundariesHit = boundariesHit;
     }
 }

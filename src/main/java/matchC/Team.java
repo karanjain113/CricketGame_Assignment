@@ -2,12 +2,12 @@ package matchC;
 
 import java.util.Random;
 
-class Team {
+public class Team {
     private String name;
     private TeamStats stats;
     Player[] teamList=new Player[11];
 
-    Team()
+    public Team()
     {
         for(int i=0;i<11;i++)
         {
@@ -36,7 +36,7 @@ class Team {
         stats=new TeamStats();
     }
     //    Constructors
-    Team(String name)
+    public Team(String name)
     {
 
         for(int i=0;i<11;i++)
