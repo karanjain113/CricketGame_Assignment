@@ -114,8 +114,7 @@ public class CricketServiceImpl implements GameService {
 
     private int playNextBall(Team battingTeam, Team bowlingTeam,Innings innings) {
         updateBallsStats(innings);
-        Random rand=new Random();
-        int next = rand.nextInt(8);
+        int next = generateNextRandomBall(innings.getStrikeBatsman(),innings.getCurrentBowler());
 //        Condition for wicket
         if(next==7)
         {
@@ -157,6 +156,31 @@ public class CricketServiceImpl implements GameService {
         innings.setNonStrikeBatsman(temp2);
     }
 
+    public int generateNextRandomBall(Player batsman, Player bowler)
+    {
+        float batsmanRating=batsman.getBattingRating();
+        float bowlerRating=bowler.getBowlingRating();
+//        Probability of Wicket falling
+        float ratio=bowlerRating/batsmanRating;
+        if(ratio>=1)
+        {
+            float threshold= (float) (((0.05)/9.0)*(ratio-1.0)+0.05);
+            if(Math.random()<=threshold)
+            {
+                return 7;
+            }
+        }
+        else{
+            float threshold= (float) (((0.01)/9.0)*(1-(1/ratio))+0.05);
+//            System.out.println(ratio);
+            if(Math.random()<=threshold)
+            {
+                return 7;
+            }
+        }
+        Random rand=new Random();
+        return rand.nextInt(7);
+    }
     public int chooseNextBowler(int currentBowler) {
         currentBowler%=11;
         if(currentBowler==0)
