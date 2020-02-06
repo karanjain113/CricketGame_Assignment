@@ -8,9 +8,9 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Innings {
     private String battingTeam="";
     private String bowlingTeam="";
-    private int runsScored =0;
-    private int wicketsFallen =0;
-    private int ballsPlayed =0;
+    private int runsScored;
+    private int wicketsFallen;
+    private int ballsPlayed;
     private String oversBowled="";
     private static int totalOvers;
     private Player strikeBatsman,nonStrikeBatsman,currentBowler;
