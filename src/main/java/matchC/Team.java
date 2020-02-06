@@ -1,36 +1,38 @@
 package matchC;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Team {
     private String name;
     private TeamStats stats;
-    Player[] teamList=new Player[11];
+    private List<Player> teamList= new ArrayList<>(11);
 
     public Team()
     {
         for(int i=0;i<11;i++)
         {
-            teamList[i]=new Player("RandomP"+i);
+            teamList.add(new Player("RandomP"+i));
         }
         Random rand=new Random();
         for(int i=0;i<4;i++)
         {
-            teamList[i].setTypeOfPlayer(PlayerType.Batsman);
-            teamList[i].setBattingRating((float)rand.nextInt(3)+8);
-            teamList[i].setBowlingRating(0);
+            teamList.get(i).setTypeOfPlayer(PlayerType.Batsman);
+            teamList.get(i).setBattingRating((float)rand.nextInt(3)+8);
+            teamList.get(i).setBowlingRating(0);
         }
         for(int i=4;i<6;i++)
         {
-            teamList[i].setTypeOfPlayer(PlayerType.AllRounder);
-            teamList[i].setBattingRating((float)rand.nextInt(2)+5);
-            teamList[i].setBowlingRating((float)rand.nextInt(2)+5);
+            teamList.get(i).setTypeOfPlayer(PlayerType.AllRounder);
+            teamList.get(i).setBattingRating((float)rand.nextInt(2)+5);
+            teamList.get(i).setBowlingRating((float)rand.nextInt(2)+5);
         }
         for(int i=6;i<=10;i++)
         {
-            teamList[i].setTypeOfPlayer(PlayerType.Bowler);
-            teamList[i].setBattingRating((float)rand.nextInt(3)+1);
-            teamList[i].setBowlingRating((float)rand.nextInt(3)+8);
+            teamList.get(i).setTypeOfPlayer(PlayerType.Bowler);
+            teamList.get(i).setBattingRating((float)rand.nextInt(3)+1);
+            teamList.get(i).setBowlingRating((float)rand.nextInt(3)+8);
         }
         this.name="RandomTeam";
         stats=new TeamStats();
@@ -41,32 +43,35 @@ public class Team {
 
         for(int i=0;i<11;i++)
         {
-            teamList[i]=new Player("RandomP"+i);
+            teamList.add(new Player("RandomP"+i));
         }
         Random rand=new Random();
         for(int i=0;i<4;i++)
         {
-            teamList[i].setTypeOfPlayer(PlayerType.Batsman);
-            teamList[i].setBattingRating((float)rand.nextInt(3)+8);
-            teamList[i].setBowlingRating(0);
+            teamList.get(i).setTypeOfPlayer(PlayerType.Batsman);
+            teamList.get(i).setBattingRating((float)rand.nextInt(3)+8);
+            teamList.get(i).setBowlingRating(0);
         }
         for(int i=4;i<6;i++)
         {
-            teamList[i].setTypeOfPlayer(PlayerType.AllRounder);
-            teamList[i].setBattingRating((float)rand.nextInt(2)+5);
-            teamList[i].setBowlingRating((float)rand.nextInt(2)+5);
+            teamList.get(i).setTypeOfPlayer(PlayerType.AllRounder);
+            teamList.get(i).setBattingRating((float)rand.nextInt(2)+5);
+            teamList.get(i).setBowlingRating((float)rand.nextInt(2)+5);
         }
         for(int i=6;i<=10;i++)
         {
-            teamList[i].setTypeOfPlayer(PlayerType.Bowler);
-            teamList[i].setBattingRating((float)rand.nextInt(3)+1);
-            teamList[i].setBowlingRating((float)rand.nextInt(3)+8);
+            teamList.get(i).setTypeOfPlayer(PlayerType.Bowler);
+            teamList.get(i).setBattingRating((float)rand.nextInt(3)+1);
+            teamList.get(i).setBowlingRating((float)rand.nextInt(3)+8);
         }
         this.name=name;
         stats=new TeamStats();
     }
     //Getter Functions
     public String getName() { return name; }
-    public Player[] getTeamList() { return teamList; }
+
+    public List<Player> getTeamList() {
+        return teamList;
+    }
     public TeamStats getStats() { return stats; }
 }
