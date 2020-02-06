@@ -1,10 +1,10 @@
 package matchC.service;
 
-import matchC.CricketMatch;
+import matchC.service.beans.CricketMatch;
 
-import matchC.Innings;
-import matchC.Player;
-import matchC.Team;
+import matchC.service.beans.Innings;
+import matchC.service.beans.Player;
+import matchC.service.beans.Team;
 import matchC.utils.Utilities;
 import org.springframework.stereotype.Service;
 

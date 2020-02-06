@@ -1,7 +1,7 @@
-package matchC;
+package matchC.service.beans;
 
-enum PlayerType {Batsman,Bowler,AllRounder};
 public class Player {
+    enum PlayerType {Batsman,Bowler,AllRounder}
     private String name;
     private PlayerBattingStats battingStats;
     private PlayerBowlingStats bowlingStats;

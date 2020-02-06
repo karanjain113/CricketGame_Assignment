@@ -1,9 +1,9 @@
-package matchC;
+package matchC.service.beans;
 
 
 public class TeamStats {
-    private int runsScored=0;
-    private int wicketsFallen=0;
+    private int runsScored;
+    private int wicketsFallen;
 
     public int getRunsScored() {
         return runsScored;

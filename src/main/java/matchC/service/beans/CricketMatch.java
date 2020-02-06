@@ -1,4 +1,4 @@
-package matchC;
+package matchC.service.beans;
 
 public class CricketMatch {
     public enum Decision{Bat, Ball}

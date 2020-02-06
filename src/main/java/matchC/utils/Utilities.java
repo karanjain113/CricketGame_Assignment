@@ -1,9 +1,12 @@
 package matchC.utils;
 
-import matchC.CricketMatch;
-import matchC.Team;
+import matchC.service.beans.CricketMatch;
+import matchC.service.beans.Team;
 
-public class Utilities {
+final public class Utilities {
+    private Utilities(){
+        throw new RuntimeException("Instantiation not possible.");
+    }
     public static void doToss(CricketMatch match)
     {
         if(Math.random()<0.5)
