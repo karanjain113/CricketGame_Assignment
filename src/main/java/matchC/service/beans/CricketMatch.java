@@ -1,13 +1,13 @@
-package matchC;
+package matchC.service.beans;
 
 public class CricketMatch {
-    public enum Decision{Bat, Ball};
+    public enum Decision{Bat, Ball}
     private Innings firstInning =new Innings();
     private Innings secondInning =new Innings();
     private String tossWonBy;
     private Decision decisionTaken;
     private int target;
-    private String matchWonBy ="";
+    private String matchResult ="";
     private Team teamA;
     private Team teamB;
 
@@ -57,8 +57,8 @@ public class CricketMatch {
         return decisionTaken;
     }
 
-    public String getMatchWonBy() {
-        return matchWonBy;
+    public String getMatchResult() {
+        return matchResult;
     }
 
     public void setTossWonBy(String tossWonBy) {
@@ -77,8 +77,8 @@ public class CricketMatch {
         this.secondInning = secondInning;
     }
 
-    public void setMatchWonBy(String matchWonBy) {
-        this.matchWonBy = matchWonBy;
+    public void setMatchResult(String matchResult) {
+        this.matchResult = matchResult;
     }
 
     public void setTeamA(Team teamA) {
@@ -96,6 +96,7 @@ public class CricketMatch {
     public void setTarget(int target) {
         this.target = target;
     }
+
 
     public void init(String teamA, String teamB, int overs) {
         this.teamA=new Team(teamA);

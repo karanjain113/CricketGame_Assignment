@@ -1,4 +1,4 @@
-package matchC;
+package matchC.service.beans;
 
 public class PlayerBowlingStats {
     private int wicketsTaken=0;

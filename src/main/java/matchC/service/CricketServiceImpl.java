@@ -1,10 +1,11 @@
 package matchC.service;
 
-import matchC.CricketMatch;
+import matchC.service.beans.CricketMatch;
 
-import matchC.Innings;
-import matchC.Player;
-import matchC.Team;
+import matchC.service.beans.Innings;
+import matchC.service.beans.Player;
+import matchC.service.beans.Team;
+import matchC.utils.Utilities;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
@@ -21,57 +22,25 @@ public class CricketServiceImpl implements GameService {
     }
     public void startMatch(CricketMatch match)
     {
-        doToss(match);
-        makeDecision(match);
+        Utilities.doToss(match);
+        Utilities.makeDecision(match);
         startInnings(match.getTeamA(),match.getTeamB(),1,match.getFirstInning(),match);
         int newTarget=match.getFirstInning().getRunsScored()+1;
         match.setTarget(newTarget);
         startInnings(match.getTeamB(),match.getTeamA(),2,match.getSecondInning(), match);
-//        matchResult();
-    }
-    void doToss(CricketMatch match)
-    {
-        if(Math.random()<0.5)
-        {
-            match.setTossWonBy(match.getTeamA().getName());
-        }
-        else{
-            match.setTossWonBy(match.getTeamB().getName());
-        }
-    }
-    void makeDecision(CricketMatch match)
-    {
-        if(Math.random()<0.5)
-        {
-            match.setDecisionTaken(CricketMatch.Decision.Bat);
-            if(match.getTossWonBy().equals(match.getTeamB().getName()))
-            {
-                Team temp= match.getTeamB();
-                match.setTeamB(match.getTeamA());
-                match.setTeamA(temp);
-            }
-        }
-        else{
-            match.setDecisionTaken(CricketMatch.Decision.Ball);
-            if(match.getTossWonBy().equals(match.getTeamA().getName()))
-            {
-                Team temp= match.getTeamB();
-                match.setTeamB(match.getTeamA());
-                match.setTeamA(temp);
-            }
-        }
+        matchResult(match);
     }
 
     public void startInnings(Team battingTeam, Team bowlingTeam, int inningsNumber, Innings innings, CricketMatch match)
     {
         innings.setBattingTeam(battingTeam.getName());
         innings.setBowlingTeam(bowlingTeam.getName());
-        innings.setStrikeBatsman(battingTeam.getTeamList()[0]);
-        innings.setNonStrikeBatsman(battingTeam.getTeamList()[1]);
+        innings.setStrikeBatsman(battingTeam.getTeamList().get(0));
+        innings.setNonStrikeBatsman(battingTeam.getTeamList().get(1));
         int currentBowlerIndex=0;
         for(int j = 0; j<innings.getTotalOvers(); j++){
             currentBowlerIndex=chooseNextBowler(currentBowlerIndex);
-            innings.setCurrentBowler(bowlingTeam.getTeamList()[currentBowlerIndex]);
+            innings.setCurrentBowler(bowlingTeam.getTeamList().get(currentBowlerIndex));
             int runsThisOver=0;
             for(int i=0;i<6;i++)
             {
@@ -114,15 +83,14 @@ public class CricketServiceImpl implements GameService {
 
     private int playNextBall(Team battingTeam, Team bowlingTeam,Innings innings) {
         updateBallsStats(innings);
-        Random rand=new Random();
-        int next = rand.nextInt(8);
+        int next = generateNextRandomBall(innings.getStrikeBatsman(),innings.getCurrentBowler());
 //        Condition for wicket
         if(next==7)
         {
             int temp=innings.getCurrentBowler().getBowlingStats().getWicketsTaken()+1;
             innings.getCurrentBowler().getBowlingStats().setWicketsTaken(temp);
             innings.setWicketsFallen(innings.getWicketsFallen()+1);
-            innings.setStrikeBatsman(battingTeam.getTeamList()[innings.getWicketsFallen()]);
+            innings.setStrikeBatsman(battingTeam.getTeamList().get(innings.getWicketsFallen()));
         }
         else{
             int temp=innings.getStrikeBatsman().getBattingStats().getRunsScored();
@@ -145,9 +113,12 @@ public class CricketServiceImpl implements GameService {
     }
 
     private void updateBallsStats(Innings innings) {
-        innings.setBallsPlayed(innings.getBallsPlayed()+1);
-        innings.getStrikeBatsman().getBattingStats().setBallsPlayed(innings.getStrikeBatsman().getBattingStats().getBallsPlayed()+1);
-        innings.getCurrentBowler().getBowlingStats().setBallsBowled(innings.getCurrentBowler().getBowlingStats().getBallsBowled()+1);
+        int temp=innings.getBallsPlayed();
+        innings.setBallsPlayed(temp+1);
+        temp=innings.getStrikeBatsman().getBattingStats().getBallsPlayed();
+        innings.getStrikeBatsman().getBattingStats().setBallsPlayed(temp+1);
+        temp=innings.getCurrentBowler().getBowlingStats().getBallsBowled();
+        innings.getCurrentBowler().getBowlingStats().setBallsBowled(temp+1);
     }
 
     public void swapStrike(Innings innings)
@@ -157,6 +128,31 @@ public class CricketServiceImpl implements GameService {
         innings.setNonStrikeBatsman(temp2);
     }
 
+    public int generateNextRandomBall(Player batsman, Player bowler)
+    {
+        float batsmanRating=batsman.getBattingRating();
+        float bowlerRating=bowler.getBowlingRating();
+//        Probability of Wicket falling
+        float ratio=bowlerRating/batsmanRating;
+        if(ratio>=1)
+        {
+            float threshold= (float) (((0.05)/9.0)*(ratio-1.0)+0.05);
+            if(Math.random()<=threshold)
+            {
+                return 7;
+            }
+        }
+        else{
+            float threshold= (float) (((0.045)/9.0)*(1-(1/ratio))+0.05);
+//            System.out.println(ratio);
+            if(Math.random()<=threshold)
+            {
+                return 7;
+            }
+        }
+        Random rand=new Random();
+        return rand.nextInt(7);
+    }
     public int chooseNextBowler(int currentBowler) {
         currentBowler%=11;
         if(currentBowler==0)
@@ -165,20 +161,26 @@ public class CricketServiceImpl implements GameService {
         }
         return currentBowler;
     }
-//    public void matchResult()
-//    {
-////        Result declaration.
-//        if(secondInning.getRunsScored()>firstInning.getRunsScored())
-//        {
-//            matchWonBy = matchWonBy + teamB.getName()+" Won the match by "+Integer.toString(10- secondInning.getWicketsFallen())+" wickets";
-//
-//        }
-//        else if(secondInning.getRunsScored().equals(firstInning.getRunsScored()))
-//        {
-//            matchWonBy = matchWonBy +"Match was Draw";
-//        }
-//        else{
+
+    public void matchResult(CricketMatch match)
+    {
+        StringBuilder str=new StringBuilder();
+//        Result declaration.
+        if(match.getSecondInning().getRunsScored()>match.getFirstInning().getRunsScored())
+        {
+            str.append(match.getTeamB().getName()).append(" Won the match by ").append(10- match.getSecondInning().getWicketsFallen()).append(" wickets");
+//            matchWonBy = matchWonBy + ;
+
+        }
+        else if(match.getSecondInning().getRunsScored()==match.getFirstInning().getRunsScored())
+        {
+            str.append("Match was Draw");
+//            matchWonBy = matchWonBy +;
+        }
+        else{
+            str.append(match.getTeamA().getName()).append(" Won the match by ").append(10- match.getFirstInning().getWicketsFallen()).append(" wickets");
 //            matchWonBy = matchWonBy + teamA.getName()+" Won the match by "+Integer.toString(firstInning.getRunsScored()- secondInning.getRunsScored())+" runs";
-//        }
-//    }
+        }
+        match.setMatchResult(str.toString());
+    }
 }

@@ -1,21 +1,16 @@
-package matchC;
+package matchC.service.beans;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
-
-import java.util.Random;
 
 @JsonIgnoreProperties({"strikeBatsman","nonStrikeBatsman","currentBowler"})
 
 public class Innings {
     private String battingTeam="";
     private String bowlingTeam="";
-    private int runsScored =0;
-    private int wicketsFallen =0;
-    private int ballsPlayed =0;
+    private int runsScored;
+    private int wicketsFallen;
+    private int ballsPlayed;
     private String oversBowled="";
     private static int totalOvers;
     private Player strikeBatsman,nonStrikeBatsman,currentBowler;
@@ -87,7 +82,7 @@ public class Innings {
     }
 
     public void setTotalOvers(int totalOvers) {
-        this.totalOvers = totalOvers;
+        Innings.totalOvers = totalOvers;
     }
 
     public void setStrikeBatsman(Player strikeBatsman) {

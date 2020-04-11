@@ -1,6 +1,6 @@
 package com.example.springboot;
 
-import matchC.CricketMatch;
+import matchC.service.beans.CricketMatch;
 import matchC.service.CricketServiceImpl;
 import matchC.service.GameService;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +33,6 @@ public class GameController {
     @RequestMapping("/result")
     @ResponseBody
     public CricketMatch post(@RequestParam("Team1") String teamA, @RequestParam("Team2") String teamB, @RequestParam("Overs") String overs) {
-
         return cricketService.play(teamA,teamB,overs);
         //return transformToResponse(play);
 
